@@ -1,0 +1,3 @@
+ UPDATE `stock` SET `stock` = '100000';
+
+SELECT * FROM `product` WHERE `price_1` = "0" or `price_2` = "0"
