@@ -174,6 +174,7 @@
                 document.getElementById("packing_amount").value = "0";
                 document.getElementById("case_count").value = "0";
                 document.getElementById("discount_in_percentage").value = "0";
+                document.getElementById("packing_percentage").value = "0";
             }
             calculate_total_amount();
         }
@@ -181,21 +182,23 @@
         function calculate_total_amount() {
             var final_total_amount = "0.00";
             var tax_amount = parseFloat($("#tax_amount").val());
-            var packing_amount = parseFloat($("#packing_amount").val());
+            var packing_percentage = parseFloat($("#packing_amount").val());
             var particular_amount = parseFloat($("#particular_amount").val());
             var discount_percentage = parseFloat($("#discount_in_percentage").val());
 
             tax_amount = tax_amount != "" && tax_amount > 0 ? tax_amount : parseFloat(0);
-            packing_amount = packing_amount != "" && packing_amount > 0 ? packing_amount : parseFloat(0);
+            packing_percentage = packing_percentage != "" && packing_percentage > 0 ? packing_percentage : parseFloat(0);
             discount_percentage = discount_percentage != "" && discount_percentage > 0 ? discount_percentage : parseFloat(
                 0);
             particular_amount = particular_amount != "" && particular_amount > 0 ? particular_amount : parseFloat(0);
 
             var discount_amount = (particular_amount * discount_percentage) / 100;
+            var packing_amount = ((particular_amount - discount_amount) * packing_percentage) / 100;
 
             final_total_amount = (particular_amount - discount_amount) + tax_amount + packing_amount;
             document.getElementById("total_amount").value = parseFloat(final_total_amount).toFixed(2);
             document.getElementById("discount_amount").value = parseFloat(discount_amount).toFixed(2);
+            document.getElementById("packing_percentage").value = parseFloat(packing_amount).toFixed(2);
         }
 
         function clear_all_table_input_fields() {
@@ -305,7 +308,8 @@
                                                         name="{{ PRODUCT_COUNT }}" value="{!! $array_collection->{PARTICULAR_COUNT} !!}"
                                                         readonly>
                                                     <input id="{{ CASE_COUNT }}" type="text" class="form-control"
-                                                        name="{{ CASE_COUNT }}" value="{!! $array_collection->{CASE_COUNT} !!}" readonly>
+                                                        name="{{ CASE_COUNT }}" value="{!! $array_collection->{CASE_COUNT} !!}"
+                                                        readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -320,17 +324,6 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="packing_amount" class="col-md-3 control-label">Discount</label>
-                                                <div class="col-md-9">
-                                                    <input id="{{ DISCOUNT_IN_PERCENTAGE }}" type="number"
-                                                        class="form-control" name="{{ DISCOUNT_IN_PERCENTAGE }}"
-                                                        autocomplete="off" value="{!! $array_collection->{DISCOUNT_IN_PERCENTAGE} !!}">
-                                                    <input id="{{ DISCOUNT_AMOUNT }}" type="hidden" class="form-control"
-                                                        name="{{ DISCOUNT_AMOUNT }}" autocomplete="off"
-                                                        value="{!! $array_collection->{DISCOUNT_AMOUNT} !!}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
                                                 <label for="tax_amount" style="text-align:center"
                                                     class="col-md-3 control-label">Tax</label>
                                                 <div class="col-md-9">
@@ -341,10 +334,24 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
+                                                <label for="packing_amount" class="col-md-3 control-label">Discount</label>
+                                                <div class="col-md-9">
+                                                    <input id="{{ DISCOUNT_IN_PERCENTAGE }}" type="number"
+                                                        class="form-control" name="{{ DISCOUNT_IN_PERCENTAGE }}"
+                                                        autocomplete="off" value="{!! $array_collection->{DISCOUNT_IN_PERCENTAGE} !!}">
+                                                    <input id="{{ DISCOUNT_AMOUNT }}" type="hidden"
+                                                        class="form-control" name="{{ DISCOUNT_AMOUNT }}"
+                                                        autocomplete="off" value="{!! $array_collection->{DISCOUNT_AMOUNT} !!}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <label for="packing_amount" class="col-md-3 control-label">Packing</label>
                                                 <div class="col-md-9">
                                                     <input id="{{ PACKING_AMOUNT }}" type="number" class="form-control"
                                                         name="{{ PACKING_AMOUNT }}" value="{!! $array_collection->{PACKING_AMOUNT} !!}"
+                                                        autocomplete="off">
+                                                    <input id="{{ PACKING_PERCENTAGE }}" type="hidden"
+                                                        class="form-control" value="{!! $array_collection->{PACKING_PERCENTAGE} !!}" name="{{ PACKING_PERCENTAGE }}"
                                                         autocomplete="off">
                                                     <span id="span_packing_amount"></span>
                                                 </div>

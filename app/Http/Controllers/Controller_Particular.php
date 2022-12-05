@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Requests;
 use App\Classes\Class_Database;
 use DB;
@@ -90,6 +91,7 @@ class Controller_Particular extends Controller
         $discount_in_percentage      = Input::get("discount_in_percentage");
         $discount_in_amount          = Input::get("discount_amount");
         $tax_amount                  = Input::get("tax_amount");
+        $packing_percentage          = Input::get("packing_percentage");
         $packing_amount              = Input::get("packing_amount");
         $particular_amount           = Input::get("particular_amount");
         $total_amount                = Input::get("total_amount");
@@ -107,7 +109,8 @@ class Controller_Particular extends Controller
             PARTICULAR_AMOUNT => number_format($particular_amount, 2, '.', ''),
             PARTICULAR_COUNT  => count($purchased_product_name),
             TAX_AMOUNT        => number_format($tax_amount, 2, '.', ''),
-            PACKING_AMOUNT    => number_format($packing_amount, 2, '.', ''),
+            PACKING_PERCENTAGE => $packing_percentage != "" ? $packing_percentage : '0',
+            PACKING_AMOUNT    => $packing_amount != "" ? $packing_amount : '0',
             DISCOUNT_IN_PERCENTAGE    => $discount_in_percentage != "" ? $discount_in_percentage : '0',
             DISCOUNT_AMOUNT  => $discount_in_amount,
             TRANSPORT_NAME  => $transport_name,
@@ -166,6 +169,7 @@ class Controller_Particular extends Controller
         $discount_in_percentage      = Input::get("discount_in_percentage");
         $discount_in_amount          = Input::get("discount_amount");
         $tax_amount                  = Input::get("tax_amount");
+        $packing_percentage          = Input::get("packing_percentage");
         $packing_amount              = Input::get("packing_amount");
         $particular_amount           = Input::get("particular_amount");
         $total_amount                = Input::get("total_amount");
@@ -185,8 +189,9 @@ class Controller_Particular extends Controller
                 COMPANY_NAME      => $company_name,
                 PARTICULAR_AMOUNT => number_format($particular_amount, 2, '.', ''),
                 PARTICULAR_COUNT  => count($purchased_product_name),
+                PACKING_PERCENTAGE => $packing_percentage != "" ? $packing_percentage : '0',
                 TAX_AMOUNT        => number_format($tax_amount, 2, '.', ''),
-                PACKING_AMOUNT    => number_format($packing_amount, 2, '.', ''),
+                PACKING_AMOUNT    => $packing_amount != "" ? $packing_amount : '0',
                 DISCOUNT_IN_PERCENTAGE    => $discount_in_percentage != "" ? $discount_in_percentage : '0',
                 DISCOUNT_AMOUNT  => $discount_in_amount,
                 TRANSPORT_NAME  => $transport_name,
@@ -322,7 +327,12 @@ class Controller_Particular extends Controller
                 $fileNameToBeUsed = $bill_number . '.' . $extension;
                 $isFileHaveCorrectExtension = in_array($extension, $allowedfileExtension);
                 if ($isFileHaveCorrectExtension) {
-                    $fileToBeUpload->storeAs('receipt', $fileNameToBeUsed);
+                    $image_resize = Image::make($fileToBeUpload->getRealPath());
+                    $image_resize->resize(350, 350);
+                    $filePath = storage_path() . "/app/receipt/" . $fileNameToBeUsed;
+                    $image_resize->save($filePath);
+
+                    //$fileToBeUpload->storeAs('receipt', $fileNameToBeUsed);
                     DB::table(TB_PARTICULAR)->where(PARTICULAR_INR_ID, $particular_inr_id)->update([BILL_NAME => $fileNameToBeUsed]);
                     return Class_Database::return_FM_Success_Route("Receipt Uploaded Successfully", 'tag_view_add_particular_with_parameter', $customer_inr_id);
                 } else {

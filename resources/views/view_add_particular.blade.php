@@ -185,6 +185,7 @@
                 document.getElementById("tax_amount").value = "0";
                 document.getElementById("packing_amount").value = "0";
                 document.getElementById("case_count").value = "0";
+                document.getElementById("packing_percentage").value = "0";
             }
             calculate_total_amount();
         }
@@ -192,21 +193,23 @@
         function calculate_total_amount() {
             var final_total_amount = "0.00";
             var tax_amount = parseFloat($("#tax_amount").val());
-            var packing_amount = parseFloat($("#packing_amount").val());
+            var packing_percentage = parseFloat($("#packing_amount").val());
             var particular_amount = parseFloat($("#particular_amount").val());
             var discount_percentage = parseFloat($("#discount_in_percentage").val());
 
             tax_amount = tax_amount != "" && tax_amount > 0 ? tax_amount : parseFloat(0);
-            packing_amount = packing_amount != "" && packing_amount > 0 ? packing_amount : parseFloat(0);
+            packing_percentage = packing_percentage != "" && packing_percentage > 0 ? packing_percentage : parseFloat(0);
             discount_percentage = discount_percentage != "" && discount_percentage > 0 ? discount_percentage : parseFloat(
-                0);
+            0);
             particular_amount = particular_amount != "" && particular_amount > 0 ? particular_amount : parseFloat(0);
 
             var discount_amount = (particular_amount * discount_percentage) / 100;
+            var packing_amount = ((particular_amount - discount_amount) * packing_percentage) / 100;
 
             final_total_amount = (particular_amount - discount_amount) + tax_amount + packing_amount;
             document.getElementById("total_amount").value = parseFloat(final_total_amount).toFixed(2);
             document.getElementById("discount_amount").value = parseFloat(discount_amount).toFixed(2);
+            document.getElementById("packing_percentage").value = parseFloat(packing_amount).toFixed(2);
         }
 
         function clear_all_table_input_fields() {
@@ -346,6 +349,16 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="packing_amount" class="col-md-3 control-label">Packing</label>
+                                        <div class="col-md-9">
+                                            <input id="{{ PACKING_AMOUNT }}" type="number" class="form-control"
+                                                name="{{ PACKING_AMOUNT }}" autocomplete="off">
+                                            <input id="{{ PACKING_PERCENTAGE }}" type="hidden" class="form-control"
+                                                name="{{ PACKING_PERCENTAGE }}" autocomplete="off">
+                                            <span id="span_packing_amount"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="tax_amount" style="text-align:center"
                                             class="col-md-3 control-label">Tax</label>
                                         <div class="col-md-9">
@@ -354,15 +367,6 @@
                                             <span id="span_tax_amount"></span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="packing_amount" class="col-md-3 control-label">Packing</label>
-                                        <div class="col-md-9">
-                                            <input id="{{ PACKING_AMOUNT }}" type="number" class="form-control"
-                                                name="{{ PACKING_AMOUNT }}" autocomplete="off">
-                                            <span id="span_packing_amount"></span>
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <div class="col-sm-3" style="margin-left:-9px">
                                     <div class="form-group row">
@@ -691,7 +695,7 @@
                                                                                     <div class="col-md-6">
                                                                                         <input type="file" required
                                                                                             class="form-control"
-                                                                                            name="{{ RECEIPT }}"/>
+                                                                                            name="{{ RECEIPT }}" />
 
                                                                                         <input id="{{ BILL_NUMBER }}"
                                                                                             readonly type="hidden"
@@ -705,7 +709,8 @@
                                                                                             name="{{ CUSTOMER_INR_ID }}"
                                                                                             value="{!! $array_collection->{CUSTOMER_INR_ID} !!}"
                                                                                             required>
-                                                                                        <input id="{{ PARTICULAR_INR_ID }}"
+                                                                                        <input
+                                                                                            id="{{ PARTICULAR_INR_ID }}"
                                                                                             readonly type="hidden"
                                                                                             class="form-control"
                                                                                             name="{{ PARTICULAR_INR_ID }}"

@@ -29,12 +29,9 @@
                                         <ul class="list-group list-group-flush" style="width: 69rem;">
                                             <li class="list-group-item"> Particular Amount : <b>{!! $array_collection->{PARTICULAR_AMOUNT} !!}</b>
                                             </li>
-                                            <li class="list-group-item"> Discount Percentage : <b>{!! $array_collection->{DISCOUNT_IN_PERCENTAGE} !!}
-                                                    %</b></li>
-                                            <li class="list-group-item"> Discount Amount : <b>{!! $array_collection->{DISCOUNT_AMOUNT} !!}</b>
-                                            </li>
+                                            <li class="list-group-item"> Discount Amount (<b>{!! $array_collection->{DISCOUNT_IN_PERCENTAGE} !!}%) : </b>{!! $array_collection->{DISCOUNT_AMOUNT} !!}</li>
+                                            <li class="list-group-item"> Packing Amount (<b>{!! $array_collection->{PACKING_AMOUNT} !!}%) : </b>{!! $array_collection->{PACKING_PERCENTAGE} !!}</li>
                                             <li class="list-group-item"> Tax Amount : <b>{!! $array_collection->{TAX_AMOUNT} !!}</b></li>
-                                            <li class="list-group-item"> Packing Amount : <b>{!! $array_collection->{PACKING_AMOUNT} !!}</b>
                                             </li>
                                             <li class="list-group-item"> Bill Amount : <b>{!! $array_collection->{AMOUNT} !!}</b></li>
                                         </ul>

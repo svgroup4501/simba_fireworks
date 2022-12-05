@@ -118,10 +118,15 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" name="submitbutton" value="view_report">
                                         View Report
                                     </button>
-                                    <a href="/" role="button" class="btn btn-primary">Back</a>
+                                    <button type="submit" class="btn btn-primary" name="submitbutton"
+                                        value="view_particular">
+                                        View Details
+                                    </button>
+                                    <a href="/" role="button" class="btn btn-primary"
+                                        style="margin-top:-60px;margin-left:215px">Back</a>
                                 </div>
                             </div>
                         </form>
@@ -135,7 +140,6 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="panel panel-default">
-
                     <div class="panel-heading">View Company</div>
                     <div class="panel-body">
                         <table class="table">

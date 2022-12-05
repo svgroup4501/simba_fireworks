@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Classes\Class_Database;
+
+use Illuminate\Http\Request;
 use DB;
-use Response;
 use Illuminate\Support\Facades\Input;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Redirect;
-use Codedge\Fpdf\Fpdf\Fpdf;
 use PDF;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -108,26 +104,43 @@ class Controller_Print extends Controller
         return $pdf->stream();
     }
 
-    public function fun_print_account_with_company_customer()
+    public function fun_print_account_with_company_customer(Request $request)
     {
         $company_inr_id   = Input::get("selected_company_inr_id");
         $customer_inr_id  = Input::get("selected_customer_inr_id");
-
         $this->delete_exists_pdf_file();
-        $account_collection = DB::table(TB_ACCOUNT)
-            ->where(COMPANY_INR_ID, $company_inr_id)
-            ->where(CUSTOMER_INR_ID, $customer_inr_id)
-            ->orderBy(CREADTED_AT, ASCENDING)->get();
-        $company_collection = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->get();
-        $company_name = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->pluck(COMPANY_NAME)->first();
-        $pdf_name = Str::lower($company_name) . "_" . date("d_m_Y") . "_" . time() . ".pdf";
-        $data = [
-            ARRAY_ACCOUNT => $account_collection,
-            ARRAY_COMPANY => $company_collection,
-        ];
-        $pdf = PDF::loadView('print_account_with_company_customer', $data);
-        $pdf->save($pdf_name);
-        return $pdf->stream();
+
+        if ($request->submitbutton == "view_report") {
+            $account_collection = DB::table(TB_ACCOUNT)
+                ->where(COMPANY_INR_ID, $company_inr_id)
+                ->where(CUSTOMER_INR_ID, $customer_inr_id)
+                ->orderBy(CREADTED_AT, ASCENDING)->get();
+            $company_collection = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->get();
+            $company_name = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->pluck(COMPANY_NAME)->first();
+            $pdf_name = Str::lower($company_name) . "_" . date("d_m_Y") . "_" . time() . ".pdf";
+            $data = [
+                ARRAY_ACCOUNT => $account_collection,
+                ARRAY_COMPANY => $company_collection,
+            ];
+            $pdf = PDF::loadView('print_account_with_company_customer', $data);
+            $pdf->save($pdf_name);
+            return $pdf->stream();
+        } else {
+            $company_collection = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->get();
+            $company_name = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->pluck(COMPANY_NAME)->first();
+            $pdf_name = Str::lower($company_name) . "_" . date("d_m_Y") . "_" . time() . ".pdf";
+            $particular_collection   =  DB::table(TB_PARTICULAR)
+                ->where(COMPANY_INR_ID, $company_inr_id)
+                ->where(CUSTOMER_INR_ID, $customer_inr_id)
+                ->get();
+
+            $data  = array(
+                ARRAY_PARTICULAR    =>  $particular_collection
+            );
+            $pdf = PDF::loadView('print_particular_with_customer_company', $data);
+            $pdf->save($pdf_name);
+            return $pdf->stream();
+        }
     }
 
 

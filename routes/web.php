@@ -62,6 +62,7 @@ define('PARTICULAR_AMOUNT', 'particular_amount'); // Particular Amount
 define('PARTICULAR_COUNT', 'particular_count'); // Particular Count
 define('CASE_COUNT', 'case_count'); // Case Count
 define('TAX_AMOUNT', 'tax_amount'); // Tax Amount
+define('PACKING_PERCENTAGE', 'packing_percentage'); // Packing Percentage
 define('PACKING_AMOUNT', 'packing_amount'); // Packing Amount
 define('COMPANY_NAME_MODAL', 'company_name_modal'); // Company Name Modal
 define('CUSTOMER_NAME_MODAL', 'customer_name_modal'); // Customer Name Modal

@@ -72,7 +72,7 @@
                     <img src="<?php echo $receipt_path; ?>" alt="receipt" style="width:350px;heigth:350px" />
                 @endif
             </p>
-            <table align="right" class="table table-bordered" style="width:45.5%;margin-top:-140px">
+            <table align="right" class="table table-bordered" style="width:45.5%;margin-top:-400px">
                 <tbody>
                     <tr>
                         <td style="width:66.5%">Particular Amount</td>
@@ -83,12 +83,12 @@
                         <td style="width:33.5%"><?php echo number_format($array_collection->{DISCOUNT_AMOUNT}, 2); ?></td>
                     </tr>
                     <tr>
-                        <td style="width:66.5%">Tax Amount</td>
-                        <td style="width:33.5%"><?php echo number_format($array_collection->{TAX_AMOUNT}, 2); ?></td>
+                        <td style="width:66.5%">Packing Amount({!! $array_collection->{PACKING_AMOUNT} !!}%)</td>
+                        <td style="width:33.5%"><?php echo number_format($array_collection->{PACKING_PERCENTAGE}, 2); ?></td>
                     </tr>
                     <tr>
-                        <td style="width:66.5%">Packing Amount</td>
-                        <td style="width:33.5%"><?php echo number_format($array_collection->{PACKING_AMOUNT}, 2); ?></td>
+                        <td style="width:66.5%">Tax Amount</td>
+                        <td style="width:33.5%"><?php echo number_format($array_collection->{TAX_AMOUNT}, 2); ?></td>
                     </tr>
                     <tr>
                         <td style="width:66.5%">Total Amount</td>
