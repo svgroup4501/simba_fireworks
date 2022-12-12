@@ -342,7 +342,7 @@
                                     <div class="form-group row">
                                         <label for="packing_amount" class="col-md-3 control-label">Discount</label>
                                         <div class="col-md-9">
-                                            <input id="{{ DISCOUNT_IN_PERCENTAGE }}" type="number" class="form-control"
+                                            <input id="{{ DISCOUNT_IN_PERCENTAGE }}" type="text" class="form-control"
                                                 name="{{ DISCOUNT_IN_PERCENTAGE }}" autocomplete="off">
                                             <input id="{{ DISCOUNT_AMOUNT }}" type="hidden" class="form-control"
                                                 name="{{ DISCOUNT_AMOUNT }}" autocomplete="off">
@@ -351,7 +351,7 @@
                                     <div class="form-group row">
                                         <label for="packing_amount" class="col-md-3 control-label">Packing</label>
                                         <div class="col-md-9">
-                                            <input id="{{ PACKING_AMOUNT }}" type="number" class="form-control"
+                                            <input id="{{ PACKING_AMOUNT }}" type="text" class="form-control"
                                                 name="{{ PACKING_AMOUNT }}" autocomplete="off">
                                             <input id="{{ PACKING_PERCENTAGE }}" type="hidden" class="form-control"
                                                 name="{{ PACKING_PERCENTAGE }}" autocomplete="off">
@@ -362,7 +362,7 @@
                                         <label for="tax_amount" style="text-align:center"
                                             class="col-md-3 control-label">Tax</label>
                                         <div class="col-md-9">
-                                            <input id="{{ TAX_AMOUNT }}" type="number" class="form-control"
+                                            <input id="{{ TAX_AMOUNT }}" type="text" class="form-control"
                                                 name="{{ TAX_AMOUNT }}" autocomplete="off">
                                             <span id="span_tax_amount"></span>
                                         </div>

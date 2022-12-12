@@ -74,8 +74,7 @@ class Controller_Print extends Controller
             ->where(CUSTOMER_INR_ID, $customer_inr_id)
             ->orderBy(CREADTED_AT, ASCENDING)->get();
         $customer_collection = DB::table(TB_CUSTOMER)->where(CUSTOMER_INR_ID, $customer_inr_id)->get();
-        $customer_name = DB::table(TB_CUSTOMER)->where(CUSTOMER_INR_ID, $customer_inr_id)->pluck(CUSTOMER_NAME)->first();
-        $pdf_name = Str::lower($customer_name) . "_" . date("d_m_Y") . "_" . time() . ".pdf";
+        $pdf_name = $customer_inr_id . "_" . date("d_m_Y") . "_" . time() . ".pdf";
         $data = [
             ARRAY_ACCOUNT => $account_collection,
             ARRAY_CUSTOMER => $customer_collection,
@@ -93,8 +92,7 @@ class Controller_Print extends Controller
             ->where(COMPANY_INR_ID, $company_inr_id)
             ->orderBy(CREADTED_AT, ASCENDING)->get();
         $company_collection = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->get();
-        $company_name = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->pluck(COMPANY_NAME)->first();
-        $pdf_name = Str::lower($company_name) . "_" . date("d_m_Y") . "_" . time() . ".pdf";
+        $pdf_name = $company_inr_id . "_" . date("d_m_Y") . "_" . time() . ".pdf";
         $data = [
             ARRAY_ACCOUNT => $account_collection,
             ARRAY_COMPANY => $company_collection,
@@ -116,8 +114,7 @@ class Controller_Print extends Controller
                 ->where(CUSTOMER_INR_ID, $customer_inr_id)
                 ->orderBy(CREADTED_AT, ASCENDING)->get();
             $company_collection = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->get();
-            $company_name = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->pluck(COMPANY_NAME)->first();
-            $pdf_name = Str::lower($company_name) . "_" . date("d_m_Y") . "_" . time() . ".pdf";
+            $pdf_name = $company_inr_id . "_" . date("d_m_Y") . "_" . time() . ".pdf";
             $data = [
                 ARRAY_ACCOUNT => $account_collection,
                 ARRAY_COMPANY => $company_collection,
@@ -127,8 +124,7 @@ class Controller_Print extends Controller
             return $pdf->stream();
         } else {
             $company_collection = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->get();
-            $company_name = DB::table(TB_COMPANY)->where(COMPANY_INR_ID, $company_inr_id)->pluck(COMPANY_NAME)->first();
-            $pdf_name = Str::lower($company_name) . "_" . date("d_m_Y") . "_" . time() . ".pdf";
+            $pdf_name = $company_inr_id . "_" . date("d_m_Y") . "_" . time() . ".pdf";
             $particular_collection   =  DB::table(TB_PARTICULAR)
                 ->where(COMPANY_INR_ID, $company_inr_id)
                 ->where(CUSTOMER_INR_ID, $customer_inr_id)
@@ -142,8 +138,6 @@ class Controller_Print extends Controller
             return $pdf->stream();
         }
     }
-
-
 
     public function delete_exists_pdf_file()
     {
